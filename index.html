@@ -1,129 +1,76 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý API Key</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        h2 {
-            color: #333;
-            text-align: center;
-        }
-        label {
-            color: #555;
-            font-size: 14px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .btn {
-            width: 100%;
-            padding: 10px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        .add-btn {
-            background-color: #4CAF50;
-        }
-        .delete-btn {
-            background-color: #f44336;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Quản lý API Key</h2>
-        <p id="key-info"></p> <!-- Hiển thị thông tin Key -->
-
-        <form id="add-vip-key-form">
-            <label for="vip-api-key">Thêm VIP Key</label>
-            <input type="text" id="vip-api-key" name="vip-api-key" placeholder="Nhập VIP Key mới">
-            <button type="button" class="btn add-btn" onclick="addVipKey()">Thêm VIP Key</button>
-        </form>
-
-        <form id="add-free-key-form" style="margin-top: 20px;">
-            <label for="free-api-key">Thêm Free Key</label>
-            <input type="text" id="free-api-key" name="free-api-key" placeholder="Nhập Free Key mới">
-            <button type="button" class="btn add-btn" onclick="addFreeKey()">Thêm Free Key</button>
-        </form>
-        
-        <form id="delete-key-form" style="margin-top: 20px;">
-            <label for="delete-key">Xóa Key</label>
-            <input type="text" id="delete-key" name="delete-key" placeholder="Nhập Key cần xóa">
-            <button type="button" class="btn delete-btn" onclick="deleteKey()">Xóa Key</button>
-        </form>
-    </div>
-
+    <title>Key Tool</title>
     <script>
-        // Lấy tham số từ URL
+        // Hàm để lấy tham số key từ URL
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
 
-        // Hiển thị Key từ URL
-        const key = getQueryParam('key');
-        if (key) {
-            document.getElementById("key-info").textContent = `Chìa khóa hiện tại: ${key}`;
-        }
-
-        function addVipKey() {
-            const vipKey = document.getElementById("vip-api-key").value;
-            if (vipKey) {
-                alert("VIP Key " + vipKey + " đã được thêm!");
-                // Thực hiện yêu cầu thêm VIP key tới server tại đây
-                // Gửi dữ liệu đến server (ví dụ sử dụng fetch hoặc AJAX)
+        // Hàm kiểm tra key từ URL
+        function checkKey() {
+            const key = getQueryParam('key');  // Lấy key từ URL
+            
+            // Kiểm tra key trong danh sách
+            let validKeys = ["Minh", "VIP_KEY", "FREE_KEY"];  // Danh sách key hợp lệ
+            if (validKeys.includes(key)) {
+                document.getElementById("status").innerText = "Chào mừng bạn, Key hợp lệ!";
+                document.getElementById("tool").style.display = "block";  // Hiển thị công cụ khi key hợp lệ
             } else {
-                alert("Vui lòng nhập VIP Key.");
+                document.getElementById("status").innerText = "Key không hợp lệ.";
             }
         }
 
-        function addFreeKey() {
-            const freeKey = document.getElementById("free-api-key").value;
-            if (freeKey) {
-                alert("Free Key " + freeKey + " đã được thêm!");
-                // Thực hiện yêu cầu thêm Free key tới server tại đây
-                // Gửi dữ liệu đến server
+        // Hàm để cập nhật key (có thể thay đổi key trong localStorage hoặc gửi yêu cầu API)
+        function updateKey() {
+            const newKey = document.getElementById("new-key").value;
+            if (newKey) {
+                // Lưu key mới vào localStorage
+                localStorage.setItem("currentKey", newKey);
+                alert("Key đã được cập nhật!");
+                location.reload();  // Tải lại trang để áp dụng key mới
             } else {
-                alert("Vui lòng nhập Free Key.");
+                alert("Vui lòng nhập key mới.");
             }
         }
 
-        function deleteKey() {
-            const keyToDelete = document.getElementById("delete-key").value;
-            if (keyToDelete) {
-                alert("Key " + keyToDelete + " đã được xóa!");
-                // Thực hiện yêu cầu xóa key tới server tại đây
+        // Hàm để đổi key
+        function changeKey() {
+            const newKey = document.getElementById("new-key").value;
+            if (newKey) {
+                // Cập nhật key mới vào URL
+                const newUrl = window.location.pathname + "?key=" + newKey;
+                window.location.href = newUrl;  // Chuyển hướng tới URL mới với key mới
             } else {
-                alert("Vui lòng nhập Key cần xóa.");
+                alert("Vui lòng nhập key mới để thay đổi.");
             }
         }
+        
+        window.onload = checkKey;  // Kiểm tra key khi trang tải xong
     </script>
+</head>
+<body>
+
+    <h2>Key Tool</h2>
+    <div id="status">Đang kiểm tra key...</div>
+
+    <!-- Công cụ chỉ hiển thị nếu key hợp lệ -->
+    <div id="tool" style="display:none;">
+        <h3>Chào mừng bạn, công cụ đã được mở!</h3>
+        <button onclick="alert('Công cụ VIP đang hoạt động!')">Sử dụng Công Cụ VIP</button>
+    </div>
+
+    <!-- Form cập nhật key -->
+    <h3>Cập nhật Key</h3>
+    <input type="text" id="new-key" placeholder="Nhập key mới" />
+    <button onclick="updateKey()">Cập nhật Key</button>
+    <br><br>
+    <h3>Đổi Key</h3>
+    <button onclick="changeKey()">Đổi Key</button>
+
 </body>
 </html>
