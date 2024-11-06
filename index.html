@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý API Key</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        label {
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .add-btn {
+            background-color: #4CAF50;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Quản lý API Key</h2>
+        
+        <form id="add-key-form">
+            <label for="api-key">Thêm API Key</label>
+            <input type="text" id="api-key" name="api-key" placeholder="Nhập API Key mới">
+            <button type="button" class="btn add-btn" onclick="addKey()">Thêm Key</button>
+        </form>
+        
+        <form id="delete-key-form" style="margin-top: 20px;">
+            <label for="delete-key">Xóa API Key</label>
+            <input type="text" id="delete-key" name="delete-key" placeholder="Nhập API Key cần xóa">
+            <button type="button" class="btn delete-btn" onclick="deleteKey()">Xóa Key</button>
+        </form>
+    </div>
+
+    <script>
+        function addKey() {
+            const key = document.getElementById("api-key").value;
+            if (key) {
+                alert("API Key " + key + " đã được thêm!");
+                // Thực hiện yêu cầu thêm key tới server tại đây
+            } else {
+                alert("Vui lòng nhập API Key.");
+            }
+        }
+
+        function deleteKey() {
+            const key = document.getElementById("delete-key").value;
+            if (key) {
+                alert("API Key " + key + " đã được xóa!");
+                // Thực hiện yêu cầu xóa key tới server tại đây
+            } else {
+                alert("Vui lòng nhập API Key cần xóa.");
+            }
+        }
+    </script>
+</body>
+</html>
