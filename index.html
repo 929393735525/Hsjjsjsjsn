@@ -59,38 +59,69 @@
 <body>
     <div class="container">
         <h2>Quản lý API Key</h2>
-        
-        <form id="add-key-form">
-            <label for="api-key">Thêm API Key</label>
-            <input type="text" id="api-key" name="api-key" placeholder="Nhập API Key mới">
-            <button type="button" class="btn add-btn" onclick="addKey()">Thêm Key</button>
+        <p id="key-info"></p> <!-- Hiển thị thông tin Key -->
+
+        <form id="add-vip-key-form">
+            <label for="vip-api-key">Thêm VIP Key</label>
+            <input type="text" id="vip-api-key" name="vip-api-key" placeholder="Nhập VIP Key mới">
+            <button type="button" class="btn add-btn" onclick="addVipKey()">Thêm VIP Key</button>
+        </form>
+
+        <form id="add-free-key-form" style="margin-top: 20px;">
+            <label for="free-api-key">Thêm Free Key</label>
+            <input type="text" id="free-api-key" name="free-api-key" placeholder="Nhập Free Key mới">
+            <button type="button" class="btn add-btn" onclick="addFreeKey()">Thêm Free Key</button>
         </form>
         
         <form id="delete-key-form" style="margin-top: 20px;">
-            <label for="delete-key">Xóa API Key</label>
-            <input type="text" id="delete-key" name="delete-key" placeholder="Nhập API Key cần xóa">
+            <label for="delete-key">Xóa Key</label>
+            <input type="text" id="delete-key" name="delete-key" placeholder="Nhập Key cần xóa">
             <button type="button" class="btn delete-btn" onclick="deleteKey()">Xóa Key</button>
         </form>
     </div>
 
     <script>
-        function addKey() {
-            const key = document.getElementById("api-key").value;
-            if (key) {
-                alert("API Key " + key + " đã được thêm!");
-                // Thực hiện yêu cầu thêm key tới server tại đây
+        // Lấy tham số từ URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Hiển thị Key từ URL
+        const key = getQueryParam('key');
+        if (key) {
+            document.getElementById("key-info").textContent = `Chìa khóa hiện tại: ${key}`;
+        }
+
+        function addVipKey() {
+            const vipKey = document.getElementById("vip-api-key").value;
+            if (vipKey) {
+                alert("VIP Key " + vipKey + " đã được thêm!");
+                // Thực hiện yêu cầu thêm VIP key tới server tại đây
+                // Gửi dữ liệu đến server (ví dụ sử dụng fetch hoặc AJAX)
             } else {
-                alert("Vui lòng nhập API Key.");
+                alert("Vui lòng nhập VIP Key.");
+            }
+        }
+
+        function addFreeKey() {
+            const freeKey = document.getElementById("free-api-key").value;
+            if (freeKey) {
+                alert("Free Key " + freeKey + " đã được thêm!");
+                // Thực hiện yêu cầu thêm Free key tới server tại đây
+                // Gửi dữ liệu đến server
+            } else {
+                alert("Vui lòng nhập Free Key.");
             }
         }
 
         function deleteKey() {
-            const key = document.getElementById("delete-key").value;
-            if (key) {
-                alert("API Key " + key + " đã được xóa!");
+            const keyToDelete = document.getElementById("delete-key").value;
+            if (keyToDelete) {
+                alert("Key " + keyToDelete + " đã được xóa!");
                 // Thực hiện yêu cầu xóa key tới server tại đây
             } else {
-                alert("Vui lòng nhập API Key cần xóa.");
+                alert("Vui lòng nhập Key cần xóa.");
             }
         }
     </script>
